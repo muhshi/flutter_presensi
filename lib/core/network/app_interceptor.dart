@@ -11,7 +11,7 @@ class AppInterceptor extends Interceptor {
     // TODO: implement onRequest
     options.headers['accept'] = 'application/json';
     final authToken = await SharedPreferencesHelper.getString(PREF_AUTH);
-    if (authToken?.isNotEmpty) {
+    if (authToken?.isNotEmpty ?? false) {
       options.headers['Authorization'] = authToken;
     }
     super.onRequest(options, handler);

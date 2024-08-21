@@ -17,10 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.red),
-        home: Scaffold(
-          body: LoginScreen(),
-        ));
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.red),
+      home: Scaffold(
+        body: LoginScreen(),
+      ),
+    );
   }
 }

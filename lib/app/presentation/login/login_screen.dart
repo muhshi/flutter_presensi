@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:presensi/app/presentation/home/home_screen.dart';
 import 'package:presensi/app/presentation/login/login_notifier.dart';
 import 'package:presensi/core/helper/global_helper.dart';
 import 'package:presensi/core/widget/app_widget.dart';
 
 class LoginScreen extends AppWidget<LoginNotifier, void, void> {
+  @override
+  void checkVariableAfterUi(BuildContext context) {
+    // TODO: implement checkVariableAfterUi
+    if (notifier.isLoged) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
+  }
+
   @override
   Widget bodyBuild(BuildContext context) {
     return SafeArea(
@@ -29,31 +39,47 @@ class LoginScreen extends AppWidget<LoginNotifier, void, void> {
                 height: 20,
               ),
               TextField(
+                controller: notifier.emailController,
                 decoration: InputDecoration(
                     prefixIcon: Icon(Icons.email),
-                    labelText: 'Username',
+                    labelText: 'Email',
                     border: OutlineInputBorder()),
               ),
               SizedBox(
                 height: 5,
               ),
               TextField(
-                decoration: InputDecoration(
+                  controller: notifier.passwordController,
+                  obscureText: !notifier.isShowPassword,
+                  decoration: InputDecoration(
                     prefixIcon: Icon(Icons.password),
                     labelText: 'Password',
-                    border: OutlineInputBorder()),
-              ),
+                    border: OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: Icon((notifier.isShowPassword)
+                          ? Icons.visibility_off
+                          : Icons.visibility),
+                      onPressed: _showHidePassword,
+                    ),
+                  )),
               SizedBox(
                 height: 10,
               ),
               Container(
                   width: double.maxFinite,
                   child: FilledButton(
-                      onPressed: _onPressedLogin, child: Text('Login'))),
+                      onPressed: () => _onPressedLogin(context),
+                      child: Text('Login'))),
             ],
           )),
     );
   }
 
-  _onPressedLogin() {}
+  _showHidePassword() {
+    notifier.isShowPassword = !notifier.isShowPassword;
+  }
+
+  _onPressedLogin(BuildContext context) {
+    notifier.login();
+  }
 }
